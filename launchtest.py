@@ -1,4 +1,4 @@
-import os
+import os, time
 from pprint import pprint
 from libcloud.compute.types import Provider
 from libcloud.compute.providers import get_driver
@@ -45,5 +45,8 @@ if __name__ == "__main__":
     manager = StackManager(driver)
 
     node = manager.create_node("class-libcloud", IMAGE_ID, SIZE_ID)[0][0]
+
+    print "View your instance in the AWS console. The Instance will start shutting down in 30 seconds.."
+    time.sleep(30)
 
     manager.terminate_node(node)
