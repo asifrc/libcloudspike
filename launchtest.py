@@ -17,13 +17,19 @@ class StackManager:
 
         node = self.driver.create_node(name=name, image=image, size=size)
 
-        print "Instance created!"
+        print "Instance Created!"
         print node
 
-        print "Instance starting..."
+        print "Starting Instance..."
         nodes_and_ips = self.driver.wait_until_running([node])
         print "Instance runnining at " + nodes_and_ips[0][1][0]
         return nodes_and_ips
+
+    def terminate_node(self, node):
+        print "Terminating Instance.."
+        self.driver.destroy_node(node)
+        print "Instance terminated.."
+
 
 if __name__ == "__main__":
     ACCESS_ID = os.environ['ACCESS_ID']
@@ -38,8 +44,6 @@ if __name__ == "__main__":
 
     manager = StackManager(driver)
 
-    node = manager.create_node("class-libcloud", IMAGE_ID, SIZE_ID)
+    node = manager.create_node("class-libcloud", IMAGE_ID, SIZE_ID)[0][0]
 
-# node = driver.list_nodes()
-# node[1].destroy()
-# print 'destroyed'
+    manager.terminate_node(node)
